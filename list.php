@@ -3,33 +3,23 @@ if ($this->session->flashdata('Berhasil')) {
     echo "<div class='alert alert-info'>";
     echo $this->session->flashdata('Berhasil');
     echo "</div>";
-} elseif ($this->session->flashdata('edit')) {
-
-    echo "<div class='alert alert-warning'>";
-    echo $this->session->flashdata('edit');
-    echo "</div>";
-} elseif ($this->session->flashdata('hapus')) {
-
-    echo "<div class='alert alert-warning bg-danger'>";
-    echo $this->session->flashdata('hapus');
+}elseif($this->session->flashdata('Hapus')){
+    
+    echo "<div class='alert alert-info bg-danger'>";
+    echo $this->session->flashdata('Hapus');
     echo "</div>";
 }
 ?>
-<h4>DATA PENILAIAN</h4> 
-<?php echo anchor('Admin/Penilaian/add', '<button type="submit" class="btn btn-info pull-right">TAMBAH NILAI</button> ') ?>
-<table id="example" class="table table-striped table-responsive table-bordered bg-white" style="width:100%">
+<button type="button" class="btn btn-primary btn-md pull-right" data-toggle="modal" data-target="#exampleModal">
+        Tamabah bobot
+</button>
+<h4>BOBOT PELANGGARAN</h4> 
+<table id="example" class="table table-striped table-bordered bg-white" style="width:100%">
     <thead>
         <tr>
             <th>No</th>
             <th>Nama</th>
-            <th>NIS</th>
-            <th>KELAS</th>
-            <th>TANGGAL</th>
-            <th>BOBOT</th>
-            <th>NO HP ORTU</th>
-            <th>TINGKAT KENAKALAN</th>
-            <th>ALAMAT</th>
-            <th>KETERANGAN</th>
+            <th>Bobot</th>
             <th>AKSI EDIT</th>
             <th>AKSI DELETE</th>
         </tr>
@@ -37,20 +27,13 @@ if ($this->session->flashdata('Berhasil')) {
     <tbody>
         <?php
         $no = 1;
-        foreach ($nilai as $row) {
+        foreach ($pelanggaran as $row) {
             echo "<tr>
                 <td>$no</td>
                 <td>$row->nama</td>
-                <td>$row->nis</td>
-                <td>$row->kelas</td>
-                <td>$row->tanggal</td>
                 <td>$row->bobot</td>
-                <td>$row->no_hp_ortu</td>
-                <td>$row->tingakt_kenakalan</td>
-                <td>$row->alamat</td>
-                <td>$row->keterangan</td>
-                <td>" . anchor('Admin/Penilaian/edit/' . $row->id_nilai, 'Edit', array('class' => 'btn btn-info')) . "</td>
-                <td>" . anchor('Admin/Penilaian/Hapus/' . $row->id_nilai, 'Hapus', array('class' => 'btn btn-danger')) . "</td>
+                <td>" . anchor('Admin/Pelanggaran/edit/' . $row->Id, 'Edit', array('class' => 'btn btn-info')) . "</td>
+                <td>" . anchor('Admin/Pelanggaran/hapus/' . $row->Id, 'Hapus', array('class' => 'btn btn-danger')) . "</td>
             </tr>";
 
             $no++;
@@ -59,3 +42,31 @@ if ($this->session->flashdata('Berhasil')) {
 
     </tbody>
 </table>    
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <?php echo form_open_multipart('Admin/Pelanggaran/add');  ?>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">INPUT BOBOT PELANGGARAN</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label>NAMA</label>
+                    <input type="text"  name="nama" class="form-control">
+               </div>
+                <div class="form-group"><label>BOBOT</label>
+                    <input type="number" name="bobot" class="form-control">
+               </div>
+           
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+      <?php echo form_close();  ?>
+    </div>
+</div>
+ 
+
